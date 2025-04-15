@@ -3,7 +3,7 @@ const app = express()
 const port = 3000
 const mongoose = require('mongoose');
 app.use(express.urlencoded({ extended: true }))
-const MyData = require('./models/MyDataSchema')
+const MyData = require('./models/CustomerSchema')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
@@ -69,13 +69,15 @@ mongoose.connect('mongodb+srv://MuhammedQC:123789456@cluster0.lnpqg.mongodb.net/
   console.log('Error connecting to the database: ', err)
 })
 
-// app.post('/', (req, res) => {
-//   console.log(req.body)
-//   const myData = new MyData(req.body) // Create a new instance of the MyData model
-//   myData.save().then(() => {
-//     res.redirect('/index.html') // Redirect to the home page
-//   }).catch((err) => {
-//     res.status(400).send('Unable to save data')
-//   });
+
+
+app.post('/user/add.html', (req, res) => {
+  console.log(req.body)
+  const myData = new MyData(req.body) // Create a new instance of the MyData model
+  myData.save().then(() => {
+    res.redirect('/user/add.html') // Redirect to the add page
+  }).catch((err) => {
+    res.status(400).send('Unable to save data')
+  });
   
-// })
+})
