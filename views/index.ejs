@@ -57,18 +57,18 @@
             <% arr.forEach((item, index) => { %>
               <tr>
                 <th scope="row"> <%= index + 1 %></th>
-                <td> <%= item.firstName + " " + item.lastName %>	</td>
+                <td> <%= item.firstName %> <%= item.lastName %>	</td>
                 <td> <%= item.gender %>	</td>
                 <td> <%= item.country %> </td>
                 <td> <%= item.age %> </td>
-                <td>1 days ago              </td>
+                <td> <%= moment(item.updatedAt).fromNow() %> </td>
                 <td>
                   <a
                     data-bs-toggle="tooltip"
                     data-bs-title="View details"
                     data-bs-placement="top"
                     class="btn btn-primary btn-sm"
-                    href="./user/view.html"
+                    href="./user/<%= item._id %>"
                     ><i class="bi bi-eye"></i
                   ></a>
   

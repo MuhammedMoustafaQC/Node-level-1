@@ -6,6 +6,9 @@ app.use(express.urlencoded({ extended: true }))
 const MyData = require('./models/CustomerSchema')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
+const moment = require('moment')
+app.locals.moment = moment
+
 
 // Live reload
 const path = require('path')
@@ -81,6 +84,18 @@ app.post('/user/add.html', (req, res) => {
   });
   
 })
+
+app.get('/user/:id', (req, res) => {
+  MyData.findById(req.params.id)
+    .then((result) => {
+    console.log(result) // Log the retrieved customer
+    res.render('user/view', { MyTitle: 'view User', userData: result });
+    }).catch((err) => {
+      console.log(err)
+    })
+})
+
+
 
 // app.get('/', (req, res) => {
 
