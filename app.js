@@ -25,7 +25,7 @@ MyData.find()
   .then((result) => {
     res.render('index', { MyTitle: 'Home', arr: result });
   }).catch((err) => {
-  console.log(err)
+  res.status(500).send('Error retrieving customers');
   })
 })
 
@@ -75,9 +75,23 @@ app.post('/user/add.html', (req, res) => {
   console.log(req.body)
   const myData = new MyData(req.body) // Create a new instance of the MyData model
   myData.save().then(() => {
-    res.redirect('/user/add.html') // Redirect to the add page
+    res.redirect('/') // Redirect to the add page
   }).catch((err) => {
     res.status(400).send('Unable to save data')
   });
   
 })
+
+// app.get('/', (req, res) => {
+
+//   MyData.find()
+//     .then((result) => {
+//       console.log(result); // Log the retrieved customers
+//       // Render the customers in the response or send them as JSON
+//       res.json(customers); // Send customers as JSON response
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).send('Error retrieving customers');
+//     });
+// });
