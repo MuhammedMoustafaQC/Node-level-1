@@ -1,13 +1,19 @@
 const express = require('express')
 const app = express()
 const port = 3000
+
+require('dotenv').config()
 const mongoose = require('mongoose');
+
 app.use(express.urlencoded({ extended: true }))
 const MyData = require('./models/CustomerSchema')
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 const moment = require('moment')
 app.locals.moment = moment
+
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'))
 
 
 // Live reload
@@ -23,6 +29,7 @@ liveReloadServer.server.once('connection', () => {
   }, 100)
 })
 
+// Display the home page with a list of customers
 app.get('/', (req, res) => {
 MyData.find()
   .then((result) => {
@@ -32,6 +39,7 @@ MyData.find()
   })
 })
 
+// Display the add user page
 app.get('/user/add.html', (req, res) => {
   MyData.find()
     .then((result) => {
@@ -41,28 +49,31 @@ app.get('/user/add.html', (req, res) => {
     })
 })
 
-app.get('/user/edit.html', (req, res) => {
-  MyData.find()
+// Display the edit user page
+app.get('/edit/:id', (req, res) => {
+  MyData.findById(req.params.id)
     .then((result) => {
-      res.render('user/edit', { MyTitle: 'Edit User', arr: result });
+    console.log(result) // Log the retrieved customer
+    res.render('user/edit', { MyTitle: 'Edit User', userData: result });
     }).catch((err) => {
       console.log(err)
     })
 })
 
-app.get('/user/view.html', (req, res) => {
-  MyData.find()
+// Display the view user page
+app.get('/view/:id', (req, res) => {
+  MyData.findById(req.params.id)
     .then((result) => {
-      res.render('user/view', { MyTitle: 'View User', arr: result });
+    console.log(result) // Log the retrieved customer
+    res.render('user/view', { MyTitle: 'View User', userData: result });
     }).catch((err) => {
       console.log(err)
     })
 })
 
 
-
-
-mongoose.connect('mongodb+srv://MuhammedQC:123789456@cluster0.lnpqg.mongodb.net/all-data?retryWrites=true&w=majority&appName=Cluster0')
+// connect to MongoDB using Mongoose
+mongoose.connect(process.env.DatabaseURL)
 .then(() => {
   app.listen(port, () => {
     console.log(`http://localhost:${port}/`);
@@ -73,7 +84,7 @@ mongoose.connect('mongodb+srv://MuhammedQC:123789456@cluster0.lnpqg.mongodb.net/
 })
 
 
-
+// Add a new user to the database
 app.post('/user/add.html', (req, res) => {
   console.log(req.body)
   const myData = new MyData(req.body) // Create a new instance of the MyData model
@@ -85,28 +96,14 @@ app.post('/user/add.html', (req, res) => {
   
 })
 
-app.get('/user/:id', (req, res) => {
-  MyData.findById(req.params.id)
-    .then((result) => {
-    console.log(result) // Log the retrieved customer
-    res.render('user/view', { MyTitle: 'view User', userData: result });
+// Delete a user from the database
+app.delete('/delete/:id', (req, res) => {
+  MyData.findByIdAndDelete(req.params.id)
+    .then(() => {
+      res.redirect('/') // Redirect to the add page
     }).catch((err) => {
       console.log(err)
     })
 })
 
 
-
-// app.get('/', (req, res) => {
-
-//   MyData.find()
-//     .then((result) => {
-//       console.log(result); // Log the retrieved customers
-//       // Render the customers in the response or send them as JSON
-//       res.json(customers); // Send customers as JSON response
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       res.status(500).send('Error retrieving customers');
-//     });
-// });

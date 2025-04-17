@@ -59,7 +59,7 @@
           <div class="col-md-6">
             <label for="inputfirstName4" class="form-label">First Name:</label>
             <input
-              placeholder="Ali..."
+              placeholder="<%= userData.firstName %>"
               type="text"
               class="form-control"
               id="inputfirstName4"
@@ -68,7 +68,7 @@
           <div class="col-md-6">
             <label for="inputlastName4" class="form-label">Last Name:</label>
             <input
-              placeholder="Hassan..."
+              placeholder=" <%= userData.lastName %>"
               type="text"
               class="form-control"
               id="inputlastName4"
@@ -78,7 +78,7 @@
           <div class="col-md-6">
             <label for="inputemail4" class="form-label">Email:</label>
             <input
-              placeholder="ali@gmail.com"
+              placeholder=" <%= userData.email %>"
               type="email"
               class="form-control"
               id="inputemail4"
@@ -87,7 +87,7 @@
           <div class="col-md-6">
             <label for="inputtele4" class="form-label">Telephone:</label>
             <input
-              placeholder="011987899"
+              placeholder=" <%= userData.phoneNumber %>"
               type="number"
               class="form-control"
               id="inputtele4"
@@ -98,7 +98,7 @@
             <div class="col-md-6">
               <label for="inputage4" class="form-label">Age:</label>
               <input
-                placeholder="Your Age: ..."
+                placeholder=" <%= userData.age %>"
                 type="number"
                 class="form-control"
                 id="inputage4"
@@ -175,9 +175,11 @@
               >
                 Close
               </button>
-              <button type="button" class="btn btn-danger">
-                Delete
-              </button>
+              <form action="/delete/<%= userData._id %>?_method=delete" method="POST">
+                <button type="submit" class="btn btn-primary">
+                  Delete
+                </button>
+              </form>
             </div>
           </div>
         </div>
