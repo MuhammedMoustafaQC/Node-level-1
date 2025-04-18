@@ -133,15 +133,17 @@
                       </div>
                       </div>
                     </div>
-                    </div>
                 </td>
               </tr>
             <% }) %>
 
-      
+            <% if (arr.length === 0) { %>
+              <tr>
+              <td colspan="7" class="text-center">No Data Available</td>
+              </tr>
+            <% } %>
+
             
-      
-      
           </tbody>
         </table>
       </section>

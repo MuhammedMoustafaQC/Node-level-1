@@ -106,4 +106,15 @@ app.delete('/delete/:id', (req, res) => {
     })
 })
 
+// Update a user in the database
+app.put('/edit/:id', (req, res) => {
+  MyData.findByIdAndUpdate(req.params.id, req.body)
+    .then((result) => {
+      console.log(result) // Log the updated customer
+      res.redirect('/') // Redirect to the add page
+    }).catch((err) => {
+      console.log(err)
+    })
+} )
+
 
